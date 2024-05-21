@@ -6,7 +6,7 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-app.use('', productRoutes)
+app.use('/api/products', productRoutes)
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello Assignment bro!')

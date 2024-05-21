@@ -25,7 +25,8 @@ const createProduct = async (req: Request, res: Response) => {
 //get all product from database
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await productService.getAllProductsFromDB()
+    const searchTerm: any = req.query.searchTerm
+    const result = await productService.getAllProductsFromDB(searchTerm)
     res.status(200).json({
       success: true,
       message: 'Products  Retrieve successfully!',
@@ -66,8 +67,8 @@ const getProductById = async (req: Request, res: Response) => {
 const updateProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId
-
-    const result = await productService.updateProductInDB(productId)
+    const data = req.body
+    const result = await productService.updateProductInDB(productId, data)
 
     res.status(200).json({
       success: true,
@@ -103,25 +104,25 @@ const deleteProduct = async (req: Request, res: Response) => {
   }
 }
 
-const searchProduct = async (req: Request, res: Response) => {
-  try {
-    const searchTerm: any = req.query.searchTerm
+// const searchProduct = async (req: Request, res: Response) => {
+//   try {
+//     const searchTerm: any = req.query.searchTerm
 
-    const result = await productService.searchProductFromDB(searchTerm)
+//     const result = await productService.searchProductFromDB(searchTerm)
 
-    res.status(200).json({
-      success: true,
-      message: 'search product retrive ok successfully!',
-      data: result,
-    })
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: 'something went wrong product available',
-      error: err.message,
-    })
-  }
-}
+//     res.status(200).json({
+//       success: true,
+//       message: 'search product retrive ok successfully!',
+//       data: result,
+//     })
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'something went wrong product available',
+//       error: err.message,
+//     })
+//   }
+// }
 
 export const productController = {
   createProduct,
@@ -129,5 +130,4 @@ export const productController = {
   getProductById,
   updateProduct,
   deleteProduct,
-  searchProduct,
 }

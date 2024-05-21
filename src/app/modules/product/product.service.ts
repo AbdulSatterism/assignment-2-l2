@@ -6,14 +6,9 @@ const createProductIntoDB = async (productData: TProduct) => {
   return result
 }
 
-const getAllProductsFromDB = async () => {
-  const result = await Products.find()
-  return result
-}
-
-const searchProductFromDB = async (searchTerm: any) => {
-  const data = new RegExp(searchTerm, 'i')
-  const result = await Products.find({ name: { $regex: data } })
+const getAllProductsFromDB = async (searchTerm: any) => {
+  const query = searchTerm ? { name: { $regex: searchTerm } } : {}
+  const result = await Products.find(query)
   return result
 }
 
@@ -24,11 +19,8 @@ const getSingleProductFromDB = async (id: string) => {
 }
 
 // updat product
-const updateProductInDB = async (id: string) => {
-  const updatedDoc = {
-    price: 1000,
-  }
-  const result = await Products.updateMany({ _id: id }, updatedDoc)
+const updateProductInDB = async (id: string, data: TProduct) => {
+  const result = await Products.findByIdAndUpdate(id, data, { new: true })
   return result
 }
 //delete from database
@@ -43,5 +35,4 @@ export const productService = {
   getSingleProductFromDB,
   deleteProductFromDB,
   updateProductInDB,
-  searchProductFromDB,
 }
