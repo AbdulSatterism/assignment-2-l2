@@ -10,17 +10,15 @@ app.use(cors())
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
 
-app.use((req, res, next) => {
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello next level developer good journey with assignment-2!')
+})
+
+app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',
   })
-
-  next()
-})
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello next level developer good journey with assignment-2!')
 })
 
 export default app
