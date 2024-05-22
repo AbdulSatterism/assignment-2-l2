@@ -1,10 +1,13 @@
 import { Request, Response } from 'express'
 import { orderServices } from './order.service'
+import orderValidationSchema from './order.validation'
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const orderData = req.body
-    const order = await orderServices.createOrderIntoDB(orderData)
+
+    const zodValidOrder = orderValidationSchema.parse(orderData)
+    const order = await orderServices.createOrderIntoDB(zodValidOrder)
     res.status(200).json({
       success: true,
       message: 'order create successfully!!',
@@ -19,6 +22,25 @@ const createOrder = async (req: Request, res: Response) => {
   }
 }
 
+const getOrders = async (req: Request, res: Response) => {
+  try {
+    const email: any = req.query.email
+    const result = await orderServices.getAllOrdersFromDB(email)
+    res.status(200).json({
+      success: true,
+      message: 'order get successfully!!',
+      data: result,
+    })
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'something went wrong',
+      error: err.message,
+    })
+  }
+}
+
 export const orderControllers = {
   createOrder,
+  getOrders,
 }

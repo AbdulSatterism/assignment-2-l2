@@ -6,6 +6,13 @@ const createOrderIntoDB = async (orderData: TOrder) => {
   return result
 }
 
+const getAllOrdersFromDB = async (email: any) => {
+  const query = email ? { email: { $regex: email } } : {}
+  const result = await Orders.find(query)
+  return result
+}
+
 export const orderServices = {
   createOrderIntoDB,
+  getAllOrdersFromDB,
 }
