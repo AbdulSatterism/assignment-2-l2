@@ -13,6 +13,10 @@ const inventorySchema = new Schema<TInventory>({
     type: Number,
     required: true,
   },
+  inStock: {
+    type: Boolean,
+    required: true,
+  },
 })
 
 const productSchema = new Schema<TProduct>({

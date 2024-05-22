@@ -33,6 +33,7 @@ orderSchema.pre('save', async function (next) {
   if (productData.inventory.quantity < this.quantity) {
     throw new Error('product quantity not available')
   }
+
   productData.inventory.quantity -= this.quantity
   next()
 })
@@ -49,7 +50,9 @@ orderSchema.post('save', async function (doc, next) {
   if (productData.inventory.quantity < doc.quantity) {
     throw new Error('product quantity not available')
   }
+
   productData.inventory.quantity -= doc.quantity
+
   next()
 })
 
