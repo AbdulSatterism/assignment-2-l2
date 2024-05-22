@@ -20,7 +20,7 @@ app.use((req, res, next) => {
 })
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello Assignment bro!')
+  res.send('Hello next level developer good journey with assignment-2!')
 })
 
 export default app

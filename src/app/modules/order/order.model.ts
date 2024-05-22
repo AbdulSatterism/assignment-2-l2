@@ -35,6 +35,10 @@ orderSchema.pre('save', async function (next) {
   }
 
   productData.inventory.quantity -= this.quantity
+  if (productData.inventory.quantity <= 0) {
+    productData.inventory.inStock = false
+  }
+
   next()
 })
 
@@ -52,6 +56,10 @@ orderSchema.post('save', async function (doc, next) {
   }
 
   productData.inventory.quantity -= doc.quantity
+
+  if (productData.inventory.quantity <= 0) {
+    productData.inventory.inStock = false
+  }
 
   next()
 })
