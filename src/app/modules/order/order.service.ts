@@ -7,9 +7,12 @@ const createOrderIntoDB = async (orderData: TOrder) => {
 }
 
 const getAllOrdersFromDB = async (email: any) => {
-  const query = email ? { email: { $regex: email } } : {}
-  const result = await Orders.find(query)
-  return result
+  const query = { email: { $regex: email } }
+  if (email) {
+    return await Orders.find(query)
+  } else {
+    return await Orders.find()
+  }
 }
 
 export const orderServices = {

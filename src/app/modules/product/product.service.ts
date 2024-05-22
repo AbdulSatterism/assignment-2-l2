@@ -7,18 +7,18 @@ const createProductIntoDB = async (productData: TProduct) => {
 }
 
 const getAllProductsFromDB = async (searchTerm: any) => {
-  const query = searchTerm
-    ? {
-        $or: [
-          { name: { $regex: searchTerm, $options: 'i' } },
-          { description: { $regex: searchTerm, $options: 'i' } },
-          { category: { $regex: searchTerm, $options: 'i' } },
-        ],
-      }
-    : {}
-
-  const result = await Products.find(query)
-  return result
+  const query = {
+    $or: [
+      { name: { $regex: searchTerm, $options: 'i' } },
+      { description: { $regex: searchTerm, $options: 'i' } },
+      { category: { $regex: searchTerm, $options: 'i' } },
+    ],
+  }
+  if (searchTerm) {
+    return await Products.find(query)
+  } else {
+    return await Products.find()
+  }
 }
 
 // get single product
@@ -27,7 +27,7 @@ const getSingleProductFromDB = async (id: string) => {
   return result
 }
 
-// updat product
+// update product
 const updateProductInDB = async (id: string, data: TProduct) => {
   const result = await Products.findByIdAndUpdate(id, data, { new: true })
   return result
