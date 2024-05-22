@@ -12,14 +12,13 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 app.use('/api/products', product_route_1.productRoutes);
 app.use('/api/orders', order_router_1.orderRoutes);
-app.use((req, res, next) => {
+app.get('/', (req, res) => {
+    res.send('Hello next level developer good journey with assignment-2!');
+});
+app.use('*', (req, res) => {
     res.status(404).json({
         success: false,
         message: 'Route not found',
     });
-    next();
-});
-app.get('/', (req, res) => {
-    res.send('Hello next level developer good journey with assignment-2!');
 });
 exports.default = app;
